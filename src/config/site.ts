@@ -3,7 +3,7 @@
  * to rebrand. Later most of this can come from a Strapi "global" single type.
  */
 export const siteConfig = {
-  name: "Voltora",
+  name: "Tech Life Pakistan",
   tagline: "Solar controllers & battery chargers.",
   description:
     "Genuine Exotech MPPT Plus Hybrid solar charge controllers and automatic battery chargers — with cash on delivery and nationwide shipping across Pakistan.",
@@ -11,7 +11,7 @@ export const siteConfig = {
   currency: { code: "PKR", symbol: "Rs." },
   contact: {
     phones: ["+92 300 1234567", "(021) 3456 7890"],
-    email: "sales@voltora.pk",
+    email: "sales@techlifepakistan.pk", // TODO: confirm the store's real email
     whatsapp: "923001234567",
     address: "Shop 12, Electronics Market, Saddar, Karachi, Pakistan",
     hours: "Mon – Sat, 10:00am – 8:00pm",

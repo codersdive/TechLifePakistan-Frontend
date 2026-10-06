@@ -1,4 +1,4 @@
-# Voltora Store
+# Tech Life Pakistan Store
 
 E-commerce store for Exotech MPPT solar charge controllers and battery chargers.
 

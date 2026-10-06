@@ -14,7 +14,7 @@ export function Logo({ className }: { className?: string }) {
         <Zap className="size-5 fill-brand-accent stroke-brand-accent" />
         <span className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/25 to-white/0 opacity-0 transition-opacity group-hover:opacity-100" />
       </span>
-      <span className="font-display text-xl font-extrabold tracking-tight">
+      <span className="whitespace-nowrap font-display text-base font-extrabold tracking-tight min-[400px]:text-lg sm:text-xl">
         {name}
         <span className="text-brand-accent">.</span>
       </span>
