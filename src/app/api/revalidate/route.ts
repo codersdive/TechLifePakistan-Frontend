@@ -11,6 +11,7 @@ const TAGS: Record<string, string[]> = {
   faq: ["faqs"],
   policy: ["policies"],
   global: ["global"],
+  "referral-program": ["referral"],
   file: ["strapi"],
 }
 
