@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { redirect } from "next/navigation"
-import { LogOut, MapPin, Package, Search, User, UserRound } from "lucide-react"
+import { Gift, LogOut, MapPin, Package, Search, User, UserRound } from "lucide-react"
 import { getMyProfile } from "@/app/actions/account"
 import { logout } from "@/app/actions/auth"
 import type { TrackedOrder } from "@/app/actions/forms"
@@ -9,16 +9,20 @@ import { AddressBook } from "@/components/account/address-book"
 import { OrderCard } from "@/components/account/order-card"
 import { ChangePasswordForm, ProfileForm } from "@/components/account/profile-forms"
 import { RecentlyViewed } from "@/components/account/recently-viewed"
+import { ReferralPanel } from "@/components/account/referral-panel"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { siteConfig } from "@/config/site"
 import { formatPrice } from "@/lib/format"
+import { getSiteSettings } from "@/lib/site"
 import { getSessionToken, getSessionUser } from "@/lib/session"
 import { gql, isStrapiEnabled } from "@/lib/strapi/client"
 import { ORDER_FIELDS, withAbsoluteImages } from "@/lib/strapi/orders"
+import { REFERRAL_FIELDS, type ReferralSummary } from "@/lib/strapi/referrals"
 
 export const metadata: Metadata = { title: "My account", robots: { index: false } }
 
-const TABS = ["orders", "profile", "addresses"] as const
+const TABS = ["orders", "profile", "addresses", "referrals"] as const
 
 export default async function AccountPage({ searchParams }: PageProps<"/account">) {
   if (!isStrapiEnabled()) {
@@ -33,12 +37,19 @@ export default async function AccountPage({ searchParams }: PageProps<"/account"
   const user = await getSessionUser()
   if (!user) redirect("/login?next=/account")
 
-  const [{ myOrders }, profile, sp] = await Promise.all([
-    gql<{ myOrders: TrackedOrder[] }>(`{ myOrders { ${ORDER_FIELDS} } }`, {}, { jwt: await getSessionToken() }),
+  const jwt = await getSessionToken()
+  const [{ myOrders }, profile, referrals, site, sp] = await Promise.all([
+    gql<{ myOrders: TrackedOrder[] }>(`{ myOrders { ${ORDER_FIELDS} } }`, {}, { jwt }),
     getMyProfile(),
+    gql<{ myReferrals: ReferralSummary }>(`{ myReferrals { ${REFERRAL_FIELDS} } }`, {}, { jwt })
+      .then((r) => r.myReferrals)
+      .catch(() => null),
+    getSiteSettings(),
     searchParams,
   ])
-  const tab = TABS.find((t) => t === sp.tab) ?? "orders"
+  // Shown while the program runs, and afterwards to anyone who still has rewards.
+  const showReferrals = !!referrals && (referrals.enabled || referrals.rewards.length > 0)
+  const tab = TABS.find((t) => t === sp.tab && (t !== "referrals" || showReferrals)) ?? "orders"
   const orders = myOrders.map(withAbsoluteImages)
   const spent = orders.filter((o) => !["cancelled", "returned"].includes(o.orderStatus)).reduce((n, o) => n + o.total, 0)
 
@@ -75,10 +86,11 @@ export default async function AccountPage({ searchParams }: PageProps<"/account"
       </div>
 
       <Tabs defaultValue={tab} className="gap-6">
-        <TabsList className="h-11 rounded-full p-1">
+        <TabsList className="h-11 max-w-full justify-start overflow-x-auto rounded-full p-1">
           <TabsTrigger value="orders" className="rounded-full px-4"><Package /> Orders</TabsTrigger>
           <TabsTrigger value="profile" className="rounded-full px-4"><UserRound /> Profile</TabsTrigger>
           <TabsTrigger value="addresses" className="rounded-full px-4"><MapPin /> Addresses</TabsTrigger>
+          {showReferrals && <TabsTrigger value="referrals" className="rounded-full px-4"><Gift /> Refer &amp; earn</TabsTrigger>}
         </TabsList>
 
         <TabsContent value="orders">
@@ -116,6 +128,12 @@ export default async function AccountPage({ searchParams }: PageProps<"/account"
         <TabsContent value="addresses">
           <AddressBook initial={profile?.addresses ?? []} defaults={{ fullName: profile?.fullName ?? "", phone: profile?.phone ?? "" }} />
         </TabsContent>
+
+        {showReferrals && referrals && (
+          <TabsContent value="referrals">
+            <ReferralPanel summary={referrals} link={`${siteConfig.url.replace(/\/$/, "")}/register?ref=${referrals.code}`} storeName={site.name} />
+          </TabsContent>
+        )}
       </Tabs>
 
       <RecentlyViewed />

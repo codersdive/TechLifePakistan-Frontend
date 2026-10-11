@@ -1,6 +1,8 @@
 "use server"
 
+import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
+import { REFERRAL_COOKIE } from "@/lib/referral-cookie"
 import { clearSession, setSessionToken } from "@/lib/session"
 import { gql, isStrapiEnabled, StrapiError } from "@/lib/strapi/client"
 import type { ActionResult } from "./checkout"
@@ -15,6 +17,18 @@ const friendly = (error: unknown) => {
   return message || "Something went wrong. Please try again."
 }
 
+/**
+ * Applies a remembered `?ref=` invite to a freshly signed-in account. The backend only credits new
+ * accounts without orders, so it is safe to try after every sign-in; the cookie is used once either way.
+ */
+async function claimPendingReferral(jwt: string) {
+  const jar = await cookies()
+  const code = jar.get(REFERRAL_COOKIE)?.value
+  if (!code) return
+  jar.delete(REFERRAL_COOKIE)
+  await gql(`mutation($code: String!) { claimReferral(code: $code) { ok } }`, { code }, { jwt }).catch(() => {})
+}
+
 export async function login(identifier: string, password: string): Promise<ActionResult<{ name: string }>> {
   if (!isStrapiEnabled()) return { ok: false, error: "Accounts need the store backend." }
   try {
@@ -23,6 +37,7 @@ export async function login(identifier: string, password: string): Promise<Actio
       { input: { identifier: identifier.trim().toLowerCase(), password, provider: "local" } }
     )
     await setSessionToken(login.jwt)
+    await claimPendingReferral(login.jwt)
     return { ok: true, data: { name: login.user.username } }
   } catch (error) {
     return { ok: false, error: friendly(error) }
@@ -41,6 +56,7 @@ export async function register(name: string, email: string, password: string): P
     if (name.trim()) {
       await gql(`mutation($n: String!) { updateMyProfile(fullName: $n) { fullName } }`, { n: name.trim() }, { jwt: register.jwt }).catch(() => {})
     }
+    await claimPendingReferral(register.jwt)
     return { ok: true, data: { name: name.trim() || register.user.username } }
   } catch (error) {
     return { ok: false, error: friendly(error) }
@@ -98,6 +114,7 @@ export async function verifyLoginCode(email: string, code: string): Promise<Acti
       { email: email.trim().toLowerCase(), code }
     )
     await setSessionToken(verifyLoginCode.jwt)
+    await claimPendingReferral(verifyLoginCode.jwt)
     return { ok: true, data: null }
   } catch (error) {
     return { ok: false, error: friendly(error) }

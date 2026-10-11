@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { motion } from "motion/react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { ArrowLeft, Eye, EyeOff, KeyRound, Loader2, Mail } from "lucide-react"
+import { ArrowLeft, Eye, EyeOff, Gift, KeyRound, Loader2, Mail } from "lucide-react"
 import { toast } from "sonner"
 import { z } from "zod"
 import { login, register, requestLoginCode, verifyLoginCode } from "@/app/actions/auth"
@@ -113,7 +113,7 @@ function CodeLogin({ onDone }: { onDone: () => void }) {
   )
 }
 
-export function AuthCard({ mode, next = "/account" }: { mode: "login" | "register"; next?: string }) {
+export function AuthCard({ mode, next = "/account", invited = false }: { mode: "login" | "register"; next?: string; invited?: boolean }) {
   const isLogin = mode === "login"
   const router = useRouter()
   const [show, setShow] = useState(false)
@@ -154,6 +154,11 @@ export function AuthCard({ mode, next = "/account" }: { mode: "login" | "registe
           <p className="mt-1 text-sm text-muted-foreground">
             {isLogin ? "Sign in to track orders and checkout faster." : "Save addresses, track orders and get member-only deals."}
           </p>
+          {invited && !isLogin && (
+            <p className="mt-4 flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
+              <Gift className="size-4" /> A friend invited you to join
+            </p>
+          )}
         </div>
         {withCode ? <CodeLogin onDone={finish} /> : (
         <Form {...form}>

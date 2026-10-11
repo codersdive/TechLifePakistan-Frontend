@@ -70,7 +70,8 @@ export async function validateCoupon(code: string, subtotal: number): Promise<Ac
       `query ValidateCoupon($code: String!, $subtotal: Float!) {
         validateCoupon(code: $code, subtotal: $subtotal) { valid code discount message }
       }`,
-      { code, subtotal }
+      { code, subtotal },
+      { jwt: await getSessionToken() }
     )
     return { ok: true, data: validateCoupon }
   } catch (error) {
@@ -111,7 +112,8 @@ export async function getCheckoutQuote(input: {
           shippingOptions { id name description estimate fee codFee }
         }
       }`,
-      { input: { ...input, couponCode: input.couponCode || null, shippingMethodId: input.shippingMethodId || null } }
+      { input: { ...input, couponCode: input.couponCode || null, shippingMethodId: input.shippingMethodId || null } },
+      { jwt: await getSessionToken() }
     )
     return { ok: true, data: checkoutQuote }
   } catch (error) {
