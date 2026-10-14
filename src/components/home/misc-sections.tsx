@@ -86,7 +86,7 @@ export async function AboutBlurb() {
         <h2 className="text-2xl font-extrabold">{site.name} — solar charge controllers & battery chargers</h2>
         <div className="mt-4 grid gap-4 text-sm leading-relaxed text-muted-foreground md:grid-cols-2">
           <p>
-            {site.name} brings you Exotech MPPT Plus Hybrid solar charge controllers and automatic battery chargers from Exotech
+            As an authorized dealer of Exotech, {site.name} brings you Exotech MPPT Plus Hybrid solar charge controllers and automatic battery chargers from Exotech
             and Sencor. Every product is genuine, checked before dispatch and delivered with Cash on Delivery.
           </p>
           <p>

@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Check, ChevronRight, FileDown } from "lucide-react"
+import { AuthorizedDealerBadge } from "@/components/common/authorized-dealer"
 import { SectionHeading } from "@/components/common/section-heading"
 import { Reveal } from "@/components/motion/reveal"
 import { PriceTag } from "@/components/product/price-tag"
@@ -81,6 +82,7 @@ export default async function ProductPage({ params }: PageProps<"/product/[slug]
                 {product.brand.name}
               </Link>
             )}
+            {/exotech/i.test(product.brand?.name ?? "") && <AuthorizedDealerBadge />}
             {product.model && <span className="rounded-full border px-3 py-1 font-mono text-xs">{product.model}</span>}
             {product.warranty && <span className="rounded-full border border-success/30 bg-success/10 px-3 py-1 text-xs font-semibold text-success">{product.warranty} warranty</span>}
           </div>

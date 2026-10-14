@@ -4,7 +4,7 @@ import { WhatsappIcon } from "@/components/icons/social"
 import { Reveal } from "@/components/motion/reveal"
 import { PageHero } from "@/components/shop/shop-view"
 import { getSiteSettings } from "@/lib/site"
-import { whatsappLink } from "@/lib/format"
+import { formatWhatsapp, whatsappLink } from "@/lib/format"
 import { ContactForm } from "./contact-form"
 
 export const metadata: Metadata = { title: "Contact us", description: "Get in touch by phone, WhatsApp or email." }
@@ -13,7 +13,7 @@ export default async function ContactPage() {
   const site = await getSiteSettings()
   const cards = [
     { icon: Phone, title: "Call us", lines: site.contact.phones, href: `tel:${site.contact.phones[0].replace(/\s/g, "")}` },
-    { icon: WhatsappIcon, title: "WhatsApp", lines: ["Fastest replies", "Chat with an expert"], href: whatsappLink(site.contact.whatsapp, "Hi! I need some help.") },
+    { icon: WhatsappIcon, title: "WhatsApp", lines: [formatWhatsapp(site.contact.whatsapp), "Fastest replies"], href: whatsappLink(site.contact.whatsapp, "Hi! I need some help.") },
     { icon: Mail, title: "Email", lines: [site.contact.email], href: `mailto:${site.contact.email}` },
     { icon: MapPin, title: "Visit", lines: [site.contact.address] },
   ]

@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import { HeartHandshake, ShieldCheck, Wrench, Zap } from "lucide-react"
+import { AuthorizedDealerBadge } from "@/components/common/authorized-dealer"
 import { TrustBadges } from "@/components/home/misc-sections"
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
 import { PageHero } from "@/components/shop/shop-view"
@@ -11,7 +12,7 @@ export const metadata: Metadata = { title: "About us", description: `About ${sit
 
 // TODO(client): replace with the company's own story, history and figures.
 const values = [
-  { icon: ShieldCheck, title: "Only genuine", text: "100% original Exotech and Sencor products, checked before dispatch." },
+  { icon: ShieldCheck, title: "Authorized Exotech dealer", text: "100% original Exotech and Sencor products, checked before dispatch." },
   { icon: Zap, title: "Built for Pakistan", text: "Controllers and chargers made for load-shedding, voltage swings and solar." },
   { icon: HeartHandshake, title: "Honest advice", text: "We help you match the right controller or charger to your battery and panels." },
   { icon: Wrench, title: "After-sales care", text: "Support with installation questions and warranty claims." },
@@ -25,9 +26,10 @@ export default async function AboutPage() {
       <section className="container-store grid items-center gap-12 py-16 lg:grid-cols-2">
         <Reveal direction="right" className="space-y-4 text-lg leading-relaxed text-muted-foreground">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Who we are</p>
+          <AuthorizedDealerBadge />
           <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl">Keeping batteries charged — from the sun and the grid</h2>
           <p>
-            {site.name} supplies Exotech MPPT Plus Hybrid solar charge controllers and automatic battery chargers from Exotech
+            {site.name} is an authorized dealer of Exotech, supplying Exotech MPPT Plus Hybrid solar charge controllers and automatic battery chargers from Exotech
             and Sencor to homes and businesses across Pakistan.
           </p>
           <p>Our promise is simple: genuine products, fair prices, and real people who answer when you call or message.</p>

@@ -14,14 +14,14 @@ export function ProductTabs({ tabs }: { tabs: { key: string; label: string; prod
   return (
     <section className="container-store py-16">
       <SectionHeading eyebrow="Our range" title="Shop the products" href="/shop">
-        <div role="tablist" className="flex rounded-full border bg-muted/50 p-1">
+        <div role="tablist" className="no-scrollbar flex max-w-full overflow-x-auto rounded-full border bg-muted/50 p-1">
           {tabs.map((t) => (
             <button
               key={t.key}
               role="tab"
               aria-selected={active === t.key}
               onClick={() => setActive(t.key)}
-              className={cn("relative rounded-full px-4 py-2 text-sm font-semibold transition-colors", active === t.key ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground")}
+              className={cn("relative shrink-0 whitespace-nowrap rounded-full px-3 py-2 text-[13px] sm:px-4 sm:text-sm font-semibold transition-colors", active === t.key ? "text-primary-foreground" : "text-muted-foreground hover:text-foreground")}
             >
               {active === t.key && <motion.span layoutId="tab-pill" className="absolute inset-0 rounded-full bg-primary shadow-md shadow-primary/30" transition={{ type: "spring", stiffness: 400, damping: 30 }} />}
               <span className="relative">{t.label}</span>

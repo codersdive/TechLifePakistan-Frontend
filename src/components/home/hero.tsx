@@ -95,7 +95,7 @@ export function Hero({ slides, side }: { slides: Banner[]; side: Banner[] }) {
                   initial={{ opacity: 0, scale: 0.85, rotate: -6 }}
                   animate={{ opacity: 1, scale: 1, rotate: 0 }}
                   transition={{ duration: 1, delay: 0.2, ease: EASE }}
-                  className="pointer-events-none absolute -bottom-10 -right-10 size-64 opacity-40 sm:opacity-60 md:relative md:bottom-auto md:right-auto md:size-auto md:opacity-100"
+                  className="pointer-events-none absolute -bottom-12 -right-12 size-52 opacity-25 min-[400px]:size-60 sm:-bottom-10 sm:-right-10 sm:size-64 sm:opacity-60 md:relative md:bottom-auto md:right-auto md:size-auto md:opacity-100"
                 >
                   <div className="relative mx-auto aspect-square w-full max-w-[420px] animate-float">
                     <motion.div

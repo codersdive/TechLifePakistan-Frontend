@@ -20,7 +20,7 @@ export const faqs = [
   {
     group: "Warranty & returns",
     items: [
-      ["Are your products genuine?", "100%. We source directly from brands and authorised distributors, and every product ships with its official warranty card."],
+      ["Are your products genuine?", "100%. We are an authorized dealer of Exotech and source directly from brands and authorised distributors, and every product ships with its official warranty card."],
       ["How do I claim warranty?", "Contact us with your order number and a short video of the issue. We’ll arrange repair or replacement per the brand’s warranty terms."],
       ["What is your return policy?", "Unused products in original packaging can be returned or exchanged within 3 days of delivery."],
     ],

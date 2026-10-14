@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Clock, Mail, MapPin, Phone } from "lucide-react"
+import { AuthorizedDealerBadge } from "@/components/common/authorized-dealer"
 import { Logo } from "@/components/common/logo"
 import { FacebookIcon, InstagramIcon, TiktokIcon, YoutubeIcon } from "@/components/icons/social"
 import type { SiteSettings } from "@/lib/site"
@@ -55,7 +56,8 @@ export function Footer({ categories, site }: { categories: Category[]; site: Sit
 
         <div className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1.3fr]">
           <div className="space-y-5">
-            <div className="[&_span]:text-announcement-foreground"><Logo /></div>
+            <Logo className="text-announcement-foreground [&_.text-logo-green]:text-[#10c995]" />
+            <AuthorizedDealerBadge className="flex w-fit border-[#10c995]/40 bg-[#10c995]/10 text-[#10c995]" />
             <p className="max-w-xs text-sm leading-relaxed opacity-70">{site.description}</p>
             <div className="flex gap-2">
               {socials.map(({ href, label, Icon }) => (

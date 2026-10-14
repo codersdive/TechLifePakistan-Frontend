@@ -24,6 +24,8 @@
   /* Brand accent (amber spark) */
   --brand-accent: oklch(0.8 0.17 75);
   --brand-accent-foreground: oklch(0.22 0.04 60);
+  /* Logo green (sampled from LOGO/ — #02906d) */
+  --logo-green: #02906d;
 
   --secondary: oklch(0.96 0.01 255);
   --secondary-foreground: oklch(0.25 0.04 260);
@@ -74,6 +76,7 @@
   --primary-foreground: oklch(0.14 0.02 262);
   --brand-accent: oklch(0.82 0.16 78);
   --brand-accent-foreground: oklch(0.2 0.04 60);
+  --logo-green: #10c995;
 
   --secondary: oklch(0.25 0.03 262);
   --secondary-foreground: oklch(0.94 0.01 255);
@@ -120,6 +123,7 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-brand-accent: var(--brand-accent);
   --color-brand-accent-foreground: var(--brand-accent-foreground);
+  --color-logo-green: var(--logo-green);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -183,6 +187,10 @@
   }
   html {
     scroll-behavior: smooth;
+  }
+  /* clip (not hidden) so sticky header still works; stops slide-in Reveal offsets from causing sideways scroll on phones */
+  html, body {
+    overflow-x: clip;
   }
   body {
     @apply bg-background text-foreground font-sans;

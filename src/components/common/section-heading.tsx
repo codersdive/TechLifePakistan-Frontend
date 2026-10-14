@@ -32,7 +32,7 @@ export function SectionHeading({
         <h2 className="text-2xl font-extrabold sm:text-3xl lg:text-4xl">{title}</h2>
         {description && <p className="mt-2 text-muted-foreground">{description}</p>}
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex max-w-full min-w-0 flex-wrap items-center gap-3">
         {children}
         {href && (
           <Link
